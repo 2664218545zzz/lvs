@@ -1,0 +1,34 @@
+---
+- name: deploy apache
+  hosts: c85,c86
+  tasks:
+    - name: install apache
+      yum:
+        name: httpd
+        state: present
+
+    - name: enable httpd
+      systemd:
+        name: httpd
+        enabled: yes
+
+
+- name: depoly DR
+  hosts: c84
+  tasks:
+    - name: use script of DR
+      script: files/DR.sh
+
+- name: depoly RS1
+  hosts: c85
+  tasks:
+    - name: use script of RS1
+      script: files/httpd_vhosts.sh
+
+- name: depoly RS2
+  hosts: c86
+  tasks:
+    - name: use script of RS2
+      script: files/httpd_vhosts2.sh
+
+
